@@ -1,23 +1,26 @@
+{******************************************************************************}
+{                                                                              }
+{ Lazarus Component                                                            }
+{ Copyright (c) 2009 MBG partenaires                                           }
+{ Unit owner: Thierry Bothorel                                                 }
+{ Version: 1                                                                   }
+{ Subversion:                                                                  }
+{   $Id::                                                                    $ }
+{                                                                              }
+{******************************************************************************}
+
 program OuvertureFermetureBaseCpta;
 
 uses
   Interfaces, // sinon Error: Undefined symbol: WSRegisterCustomImageList
   SysUtils,  // sinon Error: Identifier not found "Exception"
-  Objets100Lib_3_0_TLB,
   ActiveX,
-  Windows // pour CharToOem()
+  Objets100Lib_3_0_TLB
   ;
 
 var
   StreamCpta  : TAxcBSCPTAApplication3;
   BaseCpta    : IBSCPTAApplication3;
-
-function StrToOem(const AStr: string): AnsiString;
-begin
-  SetLength(Result, Length(AStr));
-  if Length(Result) <> 0 then
-    CharToOem(PChar(AStr), PAnsiChar(Result));
-end;
 
 function OuvreBaseCpta(
   var ABaseCpta : IBSCPTAApplication3;
@@ -43,7 +46,7 @@ begin
         sLineBreak,
         E.ClassName,
         ': ',
-        StrToOem(E.Message));
+        UTF8ToAnsi(E.Message));
       Result := false;
     end;
   end;
@@ -66,7 +69,7 @@ begin
         sLineBreak,
         E.ClassName,
         ': ',
-        StrToOem(E.Message));
+        UTF8ToAnsi(E.Message));
       Result := false;
     end;
   end;
@@ -84,8 +87,7 @@ begin
       writeln('Base comptable ', BaseCpta.Name, ' ouverte !');
       if FermeBaseCpta(BaseCpta) then
       begin
-        //Writeln('Base comptable ', BaseCpta.Name, StrToOem(' fermée !'));
-        Writeln('Base comptable ', BaseCpta.Name, StrToOem(' fermée !'));
+        Writeln('Base comptable ', BaseCpta.Name, UTF8ToAnsi(' fermée !'));
       end;
     end;
   finally
