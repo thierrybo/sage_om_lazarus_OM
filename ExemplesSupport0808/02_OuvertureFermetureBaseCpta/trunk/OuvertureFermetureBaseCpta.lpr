@@ -76,7 +76,9 @@ begin
 end;
 
 begin
-  CoInitialize(nil);
+  // Initialize COM. ------------------------------------------
+  CoInitializeEx(nil, COINIT_MULTITHREADED);
+
   StreamCpta  := TAxcBSCPTAApplication3.Create(nil);
   BaseCpta    := StreamCpta.OleServer;
   try
