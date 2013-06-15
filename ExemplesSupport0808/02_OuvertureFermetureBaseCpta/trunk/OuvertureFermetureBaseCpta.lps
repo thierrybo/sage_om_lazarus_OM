@@ -1,0 +1,158 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="9"/>
+    <BuildModes Active="Default"/>
+    <Units Count="2">
+      <Unit0>
+        <Filename Value="OuvertureFermetureBaseCpta.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="OuvertureFermetureBaseCpta"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="0"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="71"/>
+        <CursorPos X="61" Y="88"/>
+        <UsageCount Value="24"/>
+        <Loaded Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="C:\DONNEES\Dropbox\Typhon_projets\Composants\Objets100Lib_3_0_TLB.pas"/>
+        <UnitName Value="Objets100Lib_3_0_TLB"/>
+        <EditorIndex Value="1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="38944"/>
+        <CursorPos X="3" Y="39135"/>
+        <UsageCount Value="12"/>
+        <Loaded Value="True"/>
+      </Unit1>
+    </Units>
+    <General>
+      <ActiveWindowIndexAtStart Value="0"/>
+    </General>
+    <JumpHistory Count="30" HistoryIndex="29">
+      <Position1>
+        <Filename Value="C:\DONNEES\Dropbox\Typhon_projets\Composants\Objets100Lib_3_0_TLB.pas"/>
+        <Caret Line="2398" Column="42" TopLine="2381"/>
+      </Position1>
+      <Position2>
+        <Filename Value="C:\DONNEES\Dropbox\Typhon_projets\Composants\Objets100Lib_3_0_TLB.pas"/>
+        <Caret Line="32250" Column="21" TopLine="32246"/>
+      </Position2>
+      <Position3>
+        <Filename Value="C:\DONNEES\Dropbox\Typhon_projets\Composants\Objets100Lib_3_0_TLB.pas"/>
+        <Caret Line="32341" Column="21" TopLine="32331"/>
+      </Position3>
+      <Position4>
+        <Filename Value="C:\DONNEES\Dropbox\Typhon_projets\Composants\Objets100Lib_3_0_TLB.pas"/>
+        <Caret Line="33662" Column="54" TopLine="33645"/>
+      </Position4>
+      <Position5>
+        <Filename Value="C:\DONNEES\Dropbox\Typhon_projets\Composants\Objets100Lib_3_0_TLB.pas"/>
+        <Caret Line="33663" Column="67" TopLine="33646"/>
+      </Position5>
+      <Position6>
+        <Filename Value="C:\DONNEES\Dropbox\Typhon_projets\Composants\Objets100Lib_3_0_TLB.pas"/>
+        <Caret Line="33708" Column="48" TopLine="33692"/>
+      </Position6>
+      <Position7>
+        <Filename Value="C:\DONNEES\Dropbox\Typhon_projets\Composants\Objets100Lib_3_0_TLB.pas"/>
+        <Caret Line="33803" Column="48" TopLine="33786"/>
+      </Position7>
+      <Position8>
+        <Filename Value="C:\DONNEES\Dropbox\Typhon_projets\Composants\Objets100Lib_3_0_TLB.pas"/>
+        <Caret Line="39361" Column="38" TopLine="39351"/>
+      </Position8>
+      <Position9>
+        <Filename Value="C:\DONNEES\Dropbox\Typhon_projets\Composants\Objets100Lib_3_0_TLB.pas"/>
+        <Caret Line="3187" Column="38" TopLine="3176"/>
+      </Position9>
+      <Position10>
+        <Filename Value="C:\DONNEES\Dropbox\Typhon_projets\Composants\Objets100Lib_3_0_TLB.pas"/>
+        <Caret Line="3193" Column="90" TopLine="3176"/>
+      </Position10>
+      <Position11>
+        <Filename Value="C:\DONNEES\Dropbox\Typhon_projets\Composants\Objets100Lib_3_0_TLB.pas"/>
+        <Caret Line="9261" Column="38" TopLine="9244"/>
+      </Position11>
+      <Position12>
+        <Filename Value="C:\DONNEES\Dropbox\Typhon_projets\Composants\Objets100Lib_3_0_TLB.pas"/>
+        <Caret Line="9295" Column="90" TopLine="9279"/>
+      </Position12>
+      <Position13>
+        <Filename Value="C:\DONNEES\Dropbox\Typhon_projets\Composants\Objets100Lib_3_0_TLB.pas"/>
+        <Caret Line="19985" Column="38" TopLine="19968"/>
+      </Position13>
+      <Position14>
+        <Filename Value="C:\DONNEES\Dropbox\Typhon_projets\Composants\Objets100Lib_3_0_TLB.pas"/>
+        <Caret Line="20019" Column="90" TopLine="20003"/>
+      </Position14>
+      <Position15>
+        <Filename Value="C:\DONNEES\Dropbox\Typhon_projets\Composants\Objets100Lib_3_0_TLB.pas"/>
+        <Caret Line="32264" Column="38" TopLine="32247"/>
+      </Position15>
+      <Position16>
+        <Filename Value="C:\DONNEES\Dropbox\Typhon_projets\Composants\Objets100Lib_3_0_TLB.pas"/>
+        <Caret Line="33658" Column="59" TopLine="33646"/>
+      </Position16>
+      <Position17>
+        <Filename Value="C:\DONNEES\Dropbox\Typhon_projets\Composants\Objets100Lib_3_0_TLB.pas"/>
+        <Caret Line="33662" Column="54" TopLine="33646"/>
+      </Position17>
+      <Position18>
+        <Filename Value="C:\DONNEES\Dropbox\Typhon_projets\Composants\Objets100Lib_3_0_TLB.pas"/>
+        <Caret Line="33663" Column="67" TopLine="33646"/>
+      </Position18>
+      <Position19>
+        <Filename Value="C:\DONNEES\Dropbox\Typhon_projets\Composants\Objets100Lib_3_0_TLB.pas"/>
+        <Caret Line="33708" Column="48" TopLine="33692"/>
+      </Position19>
+      <Position20>
+        <Filename Value="C:\DONNEES\Dropbox\Typhon_projets\Composants\Objets100Lib_3_0_TLB.pas"/>
+        <Caret Line="33803" Column="48" TopLine="33786"/>
+      </Position20>
+      <Position21>
+        <Filename Value="OuvertureFermetureBaseCpta.lpr"/>
+        <Caret Line="3" Column="21" TopLine="1"/>
+      </Position21>
+      <Position22>
+        <Filename Value="OuvertureFermetureBaseCpta.lpr"/>
+        <Caret Line="15" Column="18" TopLine="7"/>
+      </Position22>
+      <Position23>
+        <Filename Value="OuvertureFermetureBaseCpta.lpr"/>
+        <Caret Line="46" Column="17" TopLine="34"/>
+      </Position23>
+      <Position24>
+        <Filename Value="OuvertureFermetureBaseCpta.lpr"/>
+        <Caret Line="69" Column="17" TopLine="50"/>
+      </Position24>
+      <Position25>
+        <Filename Value="OuvertureFermetureBaseCpta.lpr"/>
+        <Caret Line="7" Column="5" TopLine="1"/>
+      </Position25>
+      <Position26>
+        <Filename Value="OuvertureFermetureBaseCpta.lpr"/>
+        <Caret Line="10" Column="5" TopLine="1"/>
+      </Position26>
+      <Position27>
+        <Filename Value="OuvertureFermetureBaseCpta.lpr"/>
+        <Caret Line="11" Column="3" TopLine="1"/>
+      </Position27>
+      <Position28>
+        <Filename Value="OuvertureFermetureBaseCpta.lpr"/>
+        <Caret Line="9" Column="10" TopLine="1"/>
+      </Position28>
+      <Position29>
+        <Filename Value="OuvertureFermetureBaseCpta.lpr"/>
+        <Caret Line="6" Column="3" TopLine="4"/>
+      </Position29>
+      <Position30>
+        <Filename Value="OuvertureFermetureBaseCpta.lpr"/>
+        <Caret Line="7" Column="3" TopLine="1"/>
+      </Position30>
+    </JumpHistory>
+  </ProjectSession>
+  <EditorMacros Count="0"/>
+</CONFIG>
