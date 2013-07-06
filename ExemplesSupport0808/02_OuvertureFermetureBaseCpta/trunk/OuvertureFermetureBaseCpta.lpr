@@ -46,7 +46,7 @@ begin
         sLineBreak,
         E.ClassName,
         ': ',
-        UTF8ToAnsi(E.Message));
+        E.Message);
       Result := false;
     end;
   end;
@@ -69,7 +69,7 @@ begin
         sLineBreak,
         E.ClassName,
         ': ',
-        UTF8ToAnsi(E.Message));
+        E.Message);
       Result := false;
     end;
   end;
