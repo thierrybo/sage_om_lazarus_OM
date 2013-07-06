@@ -49,7 +49,7 @@ begin
             sLineBreak,
             E.Classname,
             ': ',
-            UTF8ToAnsi(E.Message));
+            E.Message);
       end;
     end;
   finally
