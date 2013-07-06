@@ -99,12 +99,17 @@
         <PackageName Value="Objets100Lib_3_0_TLBP"/>
       </Item1>
     </RequiredPackages>
-    <Units Count="1">
+    <Units Count="2">
       <Unit0>
         <Filename Value="CreationObjetClient.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="CreationObjetClient"/>
       </Unit0>
+      <Unit1>
+        <Filename Value="..\..\commun.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="Commun"/>
+      </Unit1>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -115,6 +120,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
+      <OtherUnitFiles Value="..\.."/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <CodeGeneration>
