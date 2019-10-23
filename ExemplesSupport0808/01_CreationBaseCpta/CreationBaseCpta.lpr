@@ -17,38 +17,38 @@ uses
   Interfaces, // sinon Error: Undefined symbol: WSRegisterCustomImageList
   SysUtils,  // sinon Error: Identifier not found "Exception"
   ActiveX,
-  Objets100Lib_3_0_TLB
+  Objets100cLib_3_0_TLB
   ;
 
 var
-  StreamCpta  : TAxcBSCPTAApplication3;
+  StreamCpta  : TAxcBSCPTAApplication100c;
   BaseCpta    : IBSCPTAApplication3;
 
-  function CreeBaseCpta(var ABaseCpta: IBSCPTAApplication3; ANomBase: string):
-      Boolean;
-  begin
-    try
-      Writeln(UTF8ToAnsi('Création de la base comptable '), ANomBase, ' en cours');
-      ABaseCpta.Name := ANomBase;
-      ABaseCpta.Create();
-      Result := true;
-    except on E: Exception do
-      begin
-        Writeln(UTF8ToAnsi('Erreur en création de base comptable '),
-          ABaseCpta.Name, ' : ', sLineBreak, E.ClassName, ': ', E.Message);
-        Result := false;
-      end;
+function CreeBaseCpta(var ABaseCpta: IBSCPTAApplication3; ANomBase: string):
+    Boolean;
+begin
+  try
+    Writeln(UTF8ToAnsi('Création de la base comptable '), ANomBase, ' en cours');
+    ABaseCpta.Name := ANomBase;
+    ABaseCpta.Create();
+    Result := true;
+  except on E: Exception do
+    begin
+      Writeln(UTF8ToAnsi('Erreur en création de base comptable '),
+        ABaseCpta.Name, ' : ', sLineBreak, E.ClassName, ': ', E.Message);
+      Result := false;
     end;
   end;
+end;
 
 begin
   // Initialize COM. ------------------------------------------
   CoInitializeEx(nil, COINIT_MULTITHREADED);
 
-  StreamCpta  := TAxcBSCPTAApplication3.Create(nil);
+  StreamCpta  := TAxcBSCPTAApplication100c.Create(nil);
   BaseCpta    := StreamCpta.OleServer;
   try
-    if CreeBaseCpta(BaseCpta, 'C:\Temp\test1.mae') then
+    if CreeBaseCpta(BaseCpta, 'C:\DATA\tmp\test1.mae') then
     begin
         Writeln(UTF8ToAnsi('Base comptable correctement créée !'));
     end;
@@ -58,4 +58,3 @@ begin
     Readln;
   end;
 end.
-

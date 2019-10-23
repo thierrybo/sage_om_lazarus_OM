@@ -1,7 +1,7 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="9"/>
+    <Version Value="10"/>
     <PathDelim Value="\"/>
     <General>
       <Flags>
@@ -17,9 +17,6 @@
     <i18n>
       <EnableI18N LFM="False"/>
     </i18n>
-    <VersionInfo>
-      <StringTable ProductVersion=""/>
-    </VersionInfo>
     <BuildModes Count="3">
       <Item1 Name="DEBUG" Default="True"/>
       <Item2 Name="Default">
@@ -40,12 +37,6 @@
               </Win32>
             </Options>
           </Linking>
-          <Other>
-            <CompilerMessages>
-              <MsgFileName Value=""/>
-            </CompilerMessages>
-            <CompilerPath Value="$(CompPath)"/>
-          </Other>
         </CompilerOptions>
       </Item2>
       <Item3 Name="RELEASE">
@@ -75,12 +66,6 @@
               </Win32>
             </Options>
           </Linking>
-          <Other>
-            <CompilerMessages>
-              <MsgFileName Value=""/>
-            </CompilerMessages>
-            <CompilerPath Value="$(CompPath)"/>
-          </Other>
         </CompilerOptions>
       </Item3>
     </BuildModes>
@@ -96,14 +81,13 @@
     </RunParams>
     <RequiredPackages Count="1">
       <Item1>
-        <PackageName Value="Objets100Lib_3_0_TLBP"/>
+        <PackageName Value="Objets100cLib_3_0_TLBP"/>
       </Item1>
     </RequiredPackages>
     <Units Count="1">
       <Unit0>
         <Filename Value="CreationBaseCpta.lpr"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="CreationBaseCpta"/>
       </Unit0>
     </Units>
   </ProjectOptions>
@@ -137,14 +121,9 @@
     <Other>
       <Verbosity>
         <ShoLineNum Value="True"/>
-        <ShowAllProcsOnError Value="True"/>
         <ShowHintsForUnusedUnitsInMainSrc Value="True"/>
         <ShowHintsForSenderNotUsed Value="True"/>
       </Verbosity>
-      <CompilerMessages>
-        <MsgFileName Value=""/>
-      </CompilerMessages>
-      <CompilerPath Value="$(CompPath)"/>
     </Other>
   </CompilerOptions>
   <Debugging>

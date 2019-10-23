@@ -17,7 +17,7 @@ interface
 
 uses
   SysUtils,
-  Objets100Lib_3_0_TLB;
+  Objets100cLib_3_0_TLB;
 
 function OuvreBaseCpta(var ABaseCpta: IBSCPTAApplication3; ANomBaseCpta: string;
     AUtilisateur: string = ''; AMotDePasse: string = ''): Boolean;

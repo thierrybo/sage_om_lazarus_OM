@@ -17,11 +17,11 @@ uses
   Interfaces, // sinon Error: Undefined symbol: WSRegisterCustomImageList
   SysUtils,  // sinon Error: Identifier not found "Exception"
   ActiveX,
-  Objets100Lib_3_0_TLB,
+  Objets100cLib_3_0_TLB,
   commun;
 
 var
-  StreamCial    : TAxcBSCIALApplication3;
+  StreamCial    : TAxcBSCIALApplication100c;
   BaseCial      : IBSCIALApplication3;
   DocVente      : IBODocumentVente3;
   DocStock      : IBODocumentStock3;
@@ -447,7 +447,8 @@ begin
   try
     Acompte       := ADocVente.FactoryDocumentAcompte.Create
                      as IBODocumentAcompte3;
-    BaseCpta      := (ADocVente.Stream as BSCIALApplication3).CptaApplication;
+    //BaseCpta      := (ADocVente.Stream as BSCIALApplication3).CptaApplication;
+    BaseCpta      := (ADocVente.Stream as BSCIALApplication100c).CptaApplication;
     with Acompte do
     begin
       DR_Date     := ADateRegl;
@@ -583,12 +584,13 @@ begin
   // Initialize COM. ------------------------------------------
   CoInitializeEx(nil, COINIT_MULTITHREADED);
 
-  StreamCial  := TAxcBSCIALApplication3.Create(nil);
+  //StreamCial  := TAxcBSCIALApplication3.Create(nil);
+  StreamCial  := TAxcBSCIALApplication100c.Create(nil);
   BaseCial    := StreamCial.OleServer;
 
   try
     if OuvreBaseCial(BaseCial,
-      'C:\temp\Bijou1553.gcm'
+      'C:\Users\Public\Documents\Sage_100c_v4\Entreprise 100c\BIJOU_100Cv4.gcm'
       , '<Administrateur>') then
     begin
 
@@ -620,7 +622,7 @@ begin
       begin
 
         { Article géré au CMUP : }
-        //CreeLigneVente(DocVente, 'BRAAR10', 5);
+        CreeLigneVente(DocVente, 'BRAAR10', 5);
 
         { Article à conditionnement : }
         //CreeLigneVente(DocVente, 'EM040/24', 2);
@@ -629,10 +631,12 @@ begin
         //CreeLigneVente(DocVente, 'CHAARVARC34', 2);
 
         { Affectation d'une valeur à une info libre ligne : }
-        ModifieInfoLibreLigne(
-            CreeLigneVente(DocVente, 'BRAAR10', 1) as IBODocumentLigne3,
-            'Commentaires',
-            'Extension de garantie : 3 ans');
+        {
+         ModifieInfoLibreLigne(
+             CreeLigneVente(DocVente, 'BRAAR10', 1) as IBODocumentLigne3,
+             'Commentaires',
+             'Extension de garantie : 3 ans');
+        }
 
         { Article à nomenclature commerciale : }
         //CreeLigneVenteArtNomenclature(DocVente, 'ENSHF', 2);
