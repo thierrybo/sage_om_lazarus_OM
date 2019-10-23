@@ -5,7 +5,7 @@
 { Unit owner: Thierry Bothorel                                                 }
 { Version: 1                                                                   }
 { Subversion:                                                                  }
-{   $Id::                                                                    $ }
+{   $Id:: commun.pas 24 2013-07-06 12:00:00Z TBOTHOREL                       $ }
 {                                                                              }
 {******************************************************************************}
 

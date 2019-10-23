@@ -5,7 +5,7 @@
 { Unit owner: Thierry Bothorel                                                 }
 { Version: 1                                                                   }
 { Subversion:                                                                  }
-{   $Id::                                                                    $ }
+{   $Id:: CreationBaseCial.lpr 22 2013-07-06 11:52:17Z TBOTHOREL             $ }
 {                                                                              }
 {******************************************************************************}
 

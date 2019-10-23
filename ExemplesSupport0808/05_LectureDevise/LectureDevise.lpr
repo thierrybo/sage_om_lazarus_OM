@@ -5,7 +5,7 @@
 { Unit owner: Thierry Bothorel                                                 }
 { Version: 1                                                                   }
 { Subversion:                                                                  }
-{   $Id::                                                                    $ }
+{   $Id:: LectureDevise.lpr 20 2013-07-06 11:47:04Z TBOTHOREL                $ }
 {                                                                              }
 {******************************************************************************}
 
@@ -36,7 +36,7 @@ begin
 
   try
     if OuvreBaseCpta(BaseCpta,
-        'C:\Documents and Settings\All Users\Documents\Sage\Sage Entreprise\BIJOU.MAE',
+        'C:\Temp\BIJOU1553.MAE',
         '<Administrateur>'
         ) then
     begin

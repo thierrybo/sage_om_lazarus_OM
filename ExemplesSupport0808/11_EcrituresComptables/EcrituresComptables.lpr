@@ -5,7 +5,7 @@
 { Unit owner: Thierry Bothorel                                                 }
 { Version: 1                                                                   }
 { Subversion:                                                                  }
-{   $Id::                                                                    $ }
+{   $Id:: EcrituresComptables.lpr 37 2013-07-07 09:50:20Z TBOTHOREL          $ }
 {                                                                              }
 {******************************************************************************}
 
@@ -35,7 +35,7 @@ begin
   try
     try
       if OuvreBaseCpta(BaseCpta,
-        'C:\Documents and Settings\All Users\Documents\Sage\Sage Entreprise\BIJOU.MAE',
+        'C:\Temp\BIJOU1553.MAE',
         '<Administrateur>'
         ) then
       begin
@@ -43,11 +43,11 @@ begin
         with Ecriture do
         begin
           Journal     := BaseCpta.FactoryJournal.ReadNumero('BEU');
-          Date        := StrToDateTime('03/07/09');
+          Date        := StrToDateTime('03/07/07');
           Tiers       := BaseCpta.FactoryClient.ReadNumero('CARAT');
           EC_Intitule := 'Acompte';
           EC_RefPiece := 'FA1234';
-          EC_Piece    := Journal.NextEC_Piece[StrToDateTime('03/07/09')];
+          EC_Piece    := Journal.NextEC_Piece[StrToDateTime('03/07/07')];
           EC_Montant  := 123.45;
           EC_Sens     := EcritureSensTypeCredit;
           SetDefault;

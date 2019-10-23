@@ -5,7 +5,7 @@
 { Unit owner: Thierry Bothorel                                                 }
 { Version: 1                                                                   }
 { Subversion:                                                                  }
-{   $Id::                                                                    $ }
+{   $Id:: OuvertureFermetureBaseCpta.lpr 21 2013-07-06 11:50:41Z TBOTHOREL   $ }
 {                                                                              }
 {******************************************************************************}
 
@@ -84,7 +84,7 @@ begin
   try
 
     { Au préalable, créer un utilisateur DURANT ayant pour mot de passe 1234 : }
-    if (OuvreBaseCpta(BaseCpta, 'C:\Temp\BIJOU.MAE', 'DURANT', '1234')) then
+    if (OuvreBaseCpta(BaseCpta, 'C:\Temp\BIJOU1553.MAE', 'DURANT', '1234')) then
     begin
       writeln('Base comptable ', BaseCpta.Name, ' ouverte !');
       if FermeBaseCpta(BaseCpta) then
