@@ -15,11 +15,11 @@ uses
   Interfaces, // sinon Error: Undefined symbol: WSRegisterCustomImageList
   SysUtils,  // sinon Error: Identifier not found "Exception"
   ActiveX,
-  Objets100Lib_3_0_TLB
+  objets100clib
   ;
 
 var
-  StreamCpta  : TAxcBSCPTAApplication3;
+  StreamCpta  : TAxcBSCPTAApplication100c;
   BaseCpta    : IBSCPTAApplication3;
 
 function OuvreBaseCpta(
@@ -79,12 +79,12 @@ begin
   // Initialize COM. ------------------------------------------
   CoInitializeEx(nil, COINIT_MULTITHREADED);
 
-  StreamCpta  := TAxcBSCPTAApplication3.Create(nil);
+  StreamCpta  := TAxcBSCPTAApplication100c.Create(nil);
   BaseCpta    := StreamCpta.OleServer;
   try
 
     { Au préalable, créer un utilisateur DURANT ayant pour mot de passe 1234 : }
-    if (OuvreBaseCpta(BaseCpta, 'C:\Temp\BIJOU1553.MAE', 'DURANT', '1234')) then
+    if (OuvreBaseCpta(BaseCpta, 'E:\DATA\Gestion\BIJOU-SQL2017\V7\BIJOU_V7.MAE', 'DURANT', '1234')) then
     begin
       writeln('Base comptable ', BaseCpta.Name, ' ouverte !');
       if FermeBaseCpta(BaseCpta) then
