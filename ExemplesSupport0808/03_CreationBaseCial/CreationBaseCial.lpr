@@ -17,13 +17,13 @@ uses
   Interfaces, // sinon Error: Undefined symbol: WSRegisterCustomImageList
   SysUtils,  // sinon Error: Identifier not found "Exception"
   ActiveX,
-  Objets100Lib_3_0_TLB
+  objets100clib
   ;
 
 var
-  StreamCpta  : TAxcBSCPTAApplication3;
+  StreamCpta  : TAxcBSCPTAApplication100c;
   BaseCpta    : IBSCPTAApplication3;
-  StreamCial  : TAxcBSCIALApplication3;
+  StreamCial  : TAxcBSCIALApplication100c;
   BaseCial    : IBSCIALApplication3;
 
 function CreeBaseCpta(var ABaseCpta: IBSCPTAApplication3; ANomBase: string):
@@ -141,13 +141,14 @@ begin
   // Initialize COM. ------------------------------------------
   CoInitializeEx(nil, COINIT_MULTITHREADED);
 
-  StreamCpta  := TAxcBSCPTAApplication3.Create(nil);
+  StreamCpta  := TAxcBSCPTAApplication100c.Create(nil);
   BaseCpta    := StreamCpta.OleServer;
-  StreamCial  := TAxcBSCIALApplication3.Create(nil);
+  StreamCial  := TAxcBSCIALApplication100c.Create(nil);
   BaseCial    := StreamCial.OleServer;
 
   try
-    if CreeBaseCial(BaseCial, 'C:\Temp\test2.gcm', BaseCpta, 'C:\Temp\test2.mae')
+    if CreeBaseCial(BaseCial, 'E:\DATA\Gestion\SQL2017\100c_v7\TEST_OM_ExemplesSupport0808.gcm',
+      BaseCpta, 'E:\DATA\Gestion\SQL2017\100c_v7\TEST_OM_ExemplesSupport0808.mae')
         then
     begin
         Writeln(UTF8ToAnsi('Base commerciale créée !'));
