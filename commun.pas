@@ -17,10 +17,13 @@ interface
 
 uses
   SysUtils,
-  objets100clib;
+  objets100clib_tlb;
 
 function OuvreBaseCpta(var ABaseCpta: IBSCPTAApplication3; ANomBaseCpta: string;
     AUtilisateur: string = ''; AMotDePasse: string = ''): Boolean;
+function OuvreBaseCptaSql(var ABaseCpta: IBSCPTAApplication3; ACompanyServer: string;
+    ACompanyDatabaseName: string; AUtilisateur: string = '';
+    AMotDePasse: string = ''): Boolean;
 function FermeBaseCpta(var ABaseCpta: IBSCPTAApplication3): Boolean;
 function OuvreBaseCial(var ABaseCial: IBSCIALApplication3; ANomBaseCial: string;
     AUtilisateur: string = ''; AMotDePasse: string = ''): Boolean;
@@ -36,6 +39,38 @@ function OuvreBaseCpta(
 begin
   try
     ABaseCpta.Name := ANomBaseCpta;
+    if (AUtilisateur <> '') then
+    begin
+      ABaseCpta.Loggable.UserName := AUtilisateur;
+      ABaseCpta.Loggable.UserPwd  := AMotDePasse;
+    end;
+    ABaseCpta.Open;
+    Result := true;
+  except on E: Exception do
+    begin
+      Writeln(
+        'Erreur en ouverture de base comptable ',
+        ABaseCpta.Name,
+        ' : ',
+        sLineBreak,
+        E.ClassName,
+        ': ',
+        E.Message);
+      Result := false;
+    end;
+  end;
+end;
+
+function OuvreBaseCptaSQL(
+  var ABaseCpta         : IBSCPTAApplication3;
+  ACompanyServer        : string;
+  ACompanyDatabaseName  : string;
+  AUtilisateur          : string = '';
+  AMotDePasse           : string = ''): Boolean;
+begin
+  try
+    ABaseCpta.CompanyServer := ACompanyServer;
+    ABaseCpta.CompanyDatabaseName := ACompanyDatabaseName;
     if (AUtilisateur <> '') then
     begin
       ABaseCpta.Loggable.UserName := AUtilisateur;
