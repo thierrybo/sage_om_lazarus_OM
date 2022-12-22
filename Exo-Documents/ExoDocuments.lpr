@@ -17,8 +17,8 @@ uses
   Interfaces, // sinon Error: Undefined symbol: WSRegisterCustomImageList
   SysUtils,  // sinon Error: Identifier not found "Exception"
   ActiveX,
-  Objets100cLib_3_0_TLB,
-  commun;
+  Objets100cLib_TLB,
+  commun, IterateurEnumVariant;
 
 var
   StreamCial    : TAxcBSCIALApplication100c;
