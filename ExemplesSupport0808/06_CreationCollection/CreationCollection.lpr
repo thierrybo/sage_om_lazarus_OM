@@ -25,7 +25,9 @@ var
   BaseCpta   : IBSCPTAApplication3;
   CollTiers  : IBICollection;
   Tiers      : IBOTiers3;
-  I          : Integer;
+  iTiers     : OleVariant; // Usage itération standard Delphi IenumVariant
+  IEnum      : IEnumVARIANT; // Usage itération standard Delphi IenumVariant
+  Nombre     : LongWord; // Usage itération standard Delphi IenumVariant
 
 begin
   // Initialize COM. ------------------------------------------
@@ -49,9 +51,10 @@ begin
         Tiers := CollTiers.Item[CollTiers.Count] as IBOTiers3;
         Writeln('Le dernier tiers se nomme ', Tiers.CT_Intitule, '.');
         Writeln(sLineBreak, 'Liste des tiers :');
-        for I := 1 to CollTiers.Count do
+        IEnum := CollTiers._NewEnum as IEnumVARIANT;
+        while IEnum.Next(1, iTiers, Nombre) = S_OK do
         begin
-          Writeln((CollTiers.Item[I] as IBOTiers3).CT_Num);
+          Writeln((IUnknown(iTiers) as IBOTiers3).CT_Num);
         end;
       except
         on E:Exception do
