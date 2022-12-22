@@ -17,12 +17,11 @@ uses
   Interfaces, // sinon Error: Undefined symbol: WSRegisterCustomImageList
   SysUtils,  // sinon Error: Identifier not found "Exception"
   ActiveX,
-  Objets100Lib_3_0_TLB,
-  commun
-  ;
+  objets100clib_tlb,
+  commun;
 
 var
-  StreamCpta  : TAxcBSCPTAApplication3;
+  StreamCpta  : TAxcBSCPTAApplication100c;
   BaseCpta    : IBSCPTAApplication3;
 
 function SupprimeTiers(var ABaseCpta: IBSCPTAApplication3; ANumTiers: string):
@@ -53,19 +52,20 @@ begin
   // Initialize COM. ------------------------------------------
   CoInitializeEx(nil, COINIT_MULTITHREADED);
 
-  StreamCpta  := TAxcBSCPTAApplication3.Create(nil);
+  StreamCpta  := TAxcBSCPTAApplication100c.Create(nil);
   BaseCpta    := StreamCpta.OleServer;
 
   try
-    if OuvreBaseCpta(BaseCpta,
-      'C:\Temp\BIJOU1553.MAE',
+    if OuvreBaseCptaSql(BaseCpta,
+      '(local)\SAGE2017',
+      'BIJOU_V7',
       '<Administrateur>'
       ) then
     begin
-      if SupprimeTiers(BaseCpta, 'ZAN') then
-        Writeln(UTF8ToAnsi('Tiers ZAN supprimé !'));
-      if SupprimeTiers(BaseCpta, 'CARAT') then
-        Writeln(UTF8ToAnsi('Tiers CARAT supprimé !'));
+      if SupprimeTiers(BaseCpta, 'ZASUPPRIMER') then
+        Writeln(UTF8ToAnsi('Tiers ZASUPPRIMER supprimé !'));
+      //if SupprimeTiers(BaseCpta, 'CARAT') then
+      //  Writeln(UTF8ToAnsi('Tiers CARAT supprimé !'));
     end;
   finally
     FermeBaseCpta(BaseCpta);

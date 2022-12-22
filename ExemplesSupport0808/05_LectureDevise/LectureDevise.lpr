@@ -17,9 +17,8 @@ uses
   Interfaces, // sinon Error: Undefined symbol: WSRegisterCustomImageList
   SysUtils,  // sinon Error: Identifier not found "Exception"
   ActiveX,
-  objets100clib,
-  Commun
-  ;
+  objets100clib_tlb,
+  Commun;
 
 var
   StreamCpta      : TAxcBSCPTAApplication100c;
@@ -35,10 +34,11 @@ begin
   BaseCpta    := StreamCpta.OleServer;
 
   try
-    if OuvreBaseCpta(BaseCpta,
-        'E:\DATA\Gestion\BIJOU-SQL2017\V7\BIJOU_V7.MAE',
-        '<Administrateur>'
-        ) then
+    if OuvreBaseCptaSql(BaseCpta,
+      '(local)\SAGE2017',
+      'BIJOU_V7',
+      '<Administrateur>'
+      ) then
     begin
       try
         IntituleDevise := 'Dollar US';

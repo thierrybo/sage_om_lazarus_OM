@@ -17,11 +17,11 @@ uses
   Interfaces, // sinon Error: Undefined symbol: WSRegisterCustomImageList
   SysUtils,  // sinon Error: Identifier not found "Exception"
   ActiveX,
-  Objets100Lib_3_0_TLB,
+  objets100clib_tlb,
   commun;
 
 var
-  StreamCpta  : TAxcBSCPTAApplication3;
+  StreamCpta  : TAxcBSCPTAApplication100c;
   BaseCpta    : IBSCPTAApplication3;
   Journal     : IBOJournal3;
 
@@ -29,16 +29,23 @@ begin
   // Initialize COM. ------------------------------------------
   CoInitializeEx(nil, COINIT_MULTITHREADED);
 
-  StreamCpta  := TAxcBSCPTAApplication3.Create(nil);
+  StreamCpta  := TAxcBSCPTAApplication100c.Create(nil);
   BaseCpta    := StreamCpta.OleServer;
 
   try
-    if OuvreBaseCpta(BaseCpta,
-      'C:\Temp\BIJOU1553.MAE',
+    // Si on utilise l'ouverture SQL
+    if OuvreBaseCptaSql(BaseCpta,
+      '(local)\SAGE2017',
+      'BIJOU_V7',
       '<Administrateur>'
       ) then
+    // Si on utilise l'ouverture .mae
+    //if OuvreBaseCpta(BaseCpta,
+    //  'E:\DATA\Gestion\BIJOU-SQL2017\V7\BIJOU_V7.MAE',
+    //  '<Administrateur>') then
     begin
       Journal             := BaseCpta.FactoryJournal.Create as IBOJournal3;
+      Journal.SetDefault;  // Pas dans VB. Pzsse type numérotation de manuelle à continue
       Journal.JO_Type     := JournalTypeVente;
       Journal.JO_Num      := 'VTE2';
       Journal.JO_Intitule := 'Vente 2';

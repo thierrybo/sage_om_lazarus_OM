@@ -17,8 +17,7 @@ uses
   Interfaces, // sinon Error: Undefined symbol: WSRegisterCustomImageList
   SysUtils,  // sinon Error: Identifier not found "Exception"
   ActiveX,
-  objets100clib
-  ;
+  objets100clib_tlb;
 
 var
   StreamCpta  : TAxcBSCPTAApplication100c;

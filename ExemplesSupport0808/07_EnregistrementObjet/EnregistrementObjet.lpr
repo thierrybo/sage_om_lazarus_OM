@@ -17,11 +17,11 @@ uses
   Interfaces, // sinon Error: Undefined symbol: WSRegisterCustomImageList
   SysUtils,  // sinon Error: Identifier not found "Exception"
   ActiveX,
-  Objets100Lib_3_0_TLB,
+  objets100clib_tlb,
   commun;
 
 var
-  StreamCpta : TAxcBSCPTAApplication3;
+  StreamCpta : TAxcBSCPTAApplication100c;
   BaseCpta   : IBSCPTAApplication3;
   Client     : IBOClient3;
 
@@ -29,12 +29,13 @@ begin
   // Initialize COM. ------------------------------------------
   CoInitializeEx(nil, COINIT_MULTITHREADED);
 
-  StreamCpta  := TAxcBSCPTAApplication3.Create(nil);
+  StreamCpta  := TAxcBSCPTAApplication100c.Create(nil);
   BaseCpta    := StreamCpta.OleServer;
 
   try
-    if OuvreBaseCpta(BaseCpta,
-      'C:\Temp\BIJOU1553.MAE',
+    if OuvreBaseCptaSql(BaseCpta,
+      '(local)\SAGE2017',
+      'BIJOU_V7',
       '<Administrateur>'
       ) then
     begin
@@ -43,7 +44,7 @@ begin
         With Client do
         begin
           CT_Num       := 'BOLLE';
-          CT_Intitule  := 'Bolle Virginie';
+          CT_Intitule  := UTF8ToAnsi('Bolle Virginie');
           TiersPayeur  := Client;
           CompteGPrinc := BaseCpta.FactoryCompteG.ReadNumero('4110000');
           Write_; { Attention FPC a renommé Write en Write_ }
