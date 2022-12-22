@@ -1,4 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
-  <ProjectGroup FileVersion="2"/>
+  <ProjectGroup FileVersion="2">
+    <Targets>
+      <Target FileName="Exo-Documents\ExoDocuments.lpi">
+        <BuildModes>
+          <Mode Name="DEBUG" Compile="True"/>
+          <Mode Name="Default"/>
+          <Mode Name="RELEASE"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="ExemplesSupport0808\01_CreationBaseCpta\CreationBaseCpta.lpi">
+        <BuildModes>
+          <Mode Name="DEBUG" Compile="True"/>
+          <Mode Name="Default"/>
+          <Mode Name="RELEASE"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="ExemplesSupport0808\02_OuvertureFermetureBaseCpta\OuvertureFermetureBaseCpta.lpi">
+        <BuildModes>
+          <Mode Name="DEBUG" Compile="True"/>
+          <Mode Name="Default"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="ExemplesSupport0808\03_CreationBaseCial\CreationBaseCial.lpi">
+        <BuildModes>
+          <Mode Name="DEBUG" Compile="True"/>
+          <Mode Name="Default"/>
+          <Mode Name="RELEASE"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="ExemplesSupport0808\04_CreationObjetClient\CreationObjetClient.lpi">
+        <BuildModes>
+          <Mode Name="DEBUG" Compile="True"/>
+          <Mode Name="Default"/>
+          <Mode Name="RELEASE"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="ExemplesSupport0808\05_LectureDevise\LectureDevise.lpi">
+        <BuildModes>
+          <Mode Name="DEBUG" Compile="True"/>
+          <Mode Name="Default"/>
+          <Mode Name="RELEASE"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="ExemplesSupport0808\06_CreationCollection\CreationCollection.lpi">
+        <BuildModes>
+          <Mode Name="DEBUG" Compile="True"/>
+          <Mode Name="Default"/>
+          <Mode Name="RELEASE"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="ExemplesSupport0808\07_EnregistrementObjet\EnregistrementObjet.lpi">
+        <BuildModes>
+          <Mode Name="DEBUG" Compile="True"/>
+          <Mode Name="Default"/>
+          <Mode Name="RELEASE"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="ExemplesSupport0808\08_SuppressionTiers\SuppressionTiers.lpi">
+        <BuildModes>
+          <Mode Name="DEBUG" Compile="True"/>
+          <Mode Name="Default"/>
+          <Mode Name="RELEASE"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="ExemplesSupport0808\09_HierarchieObjet\HierarchieObjet.lpi">
+        <BuildModes>
+          <Mode Name="DEBUG" Compile="True"/>
+          <Mode Name="Default"/>
+          <Mode Name="RELEASE"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="ExemplesSupport0808\10_Enumerations\Enumerations.lpi">
+        <BuildModes>
+          <Mode Name="DEBUG" Compile="True"/>
+          <Mode Name="Default"/>
+          <Mode Name="RELEASE"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="ExemplesSupport0808\11_EcrituresComptables\EcrituresComptables.lpi">
+        <BuildModes>
+          <Mode Name="DEBUG" Compile="True"/>
+          <Mode Name="Default"/>
+          <Mode Name="RELEASE"/>
+        </BuildModes>
+      </Target>
+    </Targets>
+  </ProjectGroup>
 </CONFIG>
