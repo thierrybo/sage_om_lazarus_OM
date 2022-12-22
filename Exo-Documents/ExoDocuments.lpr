@@ -81,6 +81,63 @@ begin
   end;
 end;
 
+function CreeEnteteVenteFA(
+  var ABaseCial : IBSCIALApplication3;
+  AClient       : string;
+  ADateDoc      : TDateTime): IBODocumentVente3;
+var
+  DocVente      : IBODocumentVente3;
+begin
+
+  try
+    DocVente := ABaseCial.FactoryDocumentVente.CreateType(
+                DocumentTypeVenteFacture);
+    with DocVente do
+    begin
+      DO_Date := ADateDoc;
+      SetDefaultClient(
+        ABaseCial.CptaApplication.FactoryTiers.ReadNumero(AClient)
+        as IBOClient3);
+      Write_;
+    end;
+    Result := DocVente;
+
+  except on E: Exception do
+    begin
+      Writeln(E.ClassName, ': ', E.Message);
+      Result := nil;
+    end;
+  end;
+end;
+
+function CreeEnteteVenteFR(
+  var ABaseCial : IBSCIALApplication3;
+  AClient       : string;
+  ADateDoc      : TDateTime): IBODocumentVente3;
+var
+  DocVente      : IBODocumentVente3;
+begin
+
+  try
+    DocVente := ABaseCial.FactoryDocumentVente.CreateFacture(DocProvenanceRetour);
+    with DocVente do
+    begin
+      DO_Date := ADateDoc;
+      SetDefaultClient(
+        ABaseCial.CptaApplication.FactoryTiers.ReadNumero(AClient)
+        as IBOClient3);
+      Write_;
+    end;
+    Result := DocVente;
+
+  except on E: Exception do
+    begin
+      Writeln(E.ClassName, ': ', E.Message);
+      Result := nil;
+    end;
+  end;
+end;
+
 function CreeLigneStock(
   var ADocStock       : IBODocumentStock3;
   ARefArticle         : string;
@@ -435,11 +492,12 @@ begin
   end;
 end;
 
-function CreeAcompte(
+function CreeAcompteVente(
   var ADocVente   : IBODocumentVente3;
-  AMontant        : Double;
+  AMontant        : double;
   AModeRegl       : string;
-  ADateRegl       : TDateTime): Boolean;
+  ADateRegl       : TDateTime;
+  ALibelle        : string): Boolean;
 var
   Acompte         : IBODocumentAcompte3;
   BaseCpta        : IBSCPTAApplication3;
@@ -447,12 +505,12 @@ begin
   try
     Acompte       := ADocVente.FactoryDocumentAcompte.Create
                      as IBODocumentAcompte3;
-    //BaseCpta      := (ADocVente.Stream as BSCIALApplication3).CptaApplication;
     BaseCpta      := (ADocVente.Stream as BSCIALApplication100c).CptaApplication;
     with Acompte do
     begin
       DR_Date     := ADateRegl;
       DR_Montant  := AMontant;
+      DR_Libelle  := ALibelle;
       Reglement   := BaseCpta.FactoryReglement.ReadIntitule(AModeRegl);
       WriteDefault;
     end;
@@ -464,6 +522,93 @@ begin
     end;
   end;
 end;
+
+
+function CreeReglementVente(
+  var ADocVte   : IBODocumentVente3;
+  AReference    : string;
+  ALibelle      : string;
+  AMontant      : double;
+  AJournal      : string;
+  AModeRegl     : string): Boolean;
+var
+  iReglt  : IBODocumentReglement;
+  Client  : IBOTiersPart3;
+  pRegler : IPMReglerEcheances;
+  BaseCial : BSCIALApplication100c;
+  //iEcheance : OleVariant; // Usage itération standard Delphi IenumVariant
+  //IEnum   : IEnumVARIANT; // Usage itération standard Delphi IenumVariant
+  //Nombre  : LongWord; // Usage itération standard Delphi IenumVariant
+  iEcheance : IUnknown; // Usage itération L.DARDENNE IenumVariant
+  IEnum   : TEnumVARIANT; // Usage itération L.DARDENNE IenumVariant
+
+begin
+
+  Result := False;
+  try
+      // Objet Base Gestion commerciale et Client
+
+    BaseCial := ADocVte.Stream as BSCIALApplication100c;
+    Client := ADocVte.TiersPayeur;
+
+      //Création du règlement
+
+      iReglt := BaseCial.FactoryDocumentReglement.Create as IBODocumentReglement;
+      with iReglt do
+      begin
+        TiersPayeur := Client;
+        RG_Date := Now;
+        RG_Reference := AReference;
+        RG_Libelle := ALibelle;
+        RG_Montant := AMontant;
+        //RG_Montant := ADocVte.DO_NetAPayer - ADocVte.DO_MontantRegle;
+        Reglement   := BaseCial.CptaApplication.FactoryReglement.ReadIntitule(AModeRegl);
+        Journal := BaseCial.CptaApplication.FactoryJournal.ReadNumero(AJournal);
+        CompteG := Client.CompteGPrinc;
+        WriteDefault;
+      end;
+
+      // Création du Processus régler les échéances
+
+      pRegler := BaseCial.CreateProcess_ReglerEcheances;
+      pRegler.Reglement := iReglt;
+
+      { Parcours des échéances de la facture : }
+
+  	{ TODO: ATTENTION déplacer l'appel jusqu'à la collection (.List) dans une
+  		variable sinon à chaque appel il doit recréer la liste => peut être long }
+
+      {
+       // Itération standard Delphi IenumVariant
+
+       //IEnum := IUnknown(ADocVte.FactoryDocumentEcheance.List._NewEnum) as IEnumVARIANT;
+       IEnum := ADocVte.FactoryDocumentEcheance.List._NewEnum as IEnumVARIANT;
+       while IEnum.Next(1, Element, Nombre) = S_OK do
+       begin
+         pRegler.AddDocumentEcheanceMontant(IUnknown(Element) as IBODocumentEcheance3, AMontant);
+         //pRegler.AddDocumentEcheance(IUnknown(Element) as IBODocumentEcheance3, AMontant);
+       end;
+      }
+      // Itération L.DARDENNE IenumVariant
+      IEnum := TEnumVariant.Create(ADocVte.FactoryDocumentEcheance.List);
+      For iEcheance in IEnum do;
+      begin
+        pRegler.AddDocumentEcheanceMontant(iEcheance as IBODocumentEcheance3, AMontant);
+      end;
+
+      pRegler.Process;
+
+      Result := True;
+
+  except on E: Exception do
+    begin
+      Writeln(E.ClassName, ': ', E.Message);
+      Result := False;
+    end;
+  end;
+
+end;
+
 
 procedure AfficheEcheances(var ADocVente: IBODocumentVente3);
 var
@@ -589,66 +734,115 @@ begin
   BaseCial    := StreamCial.OleServer;
 
   try
-    if OuvreBaseCial(BaseCial,
-      'C:\Users\Public\Documents\Sage_100c_v4\Entreprise 100c\BIJOU_100Cv4.gcm'
-      , '<Administrateur>') then
-    begin
-
-      //{ Création d'une Mouvement d'entrée en stock : }
-      //DocStock := CreeEnteteStockME(BaseCial, 'Bijou SA', Now);
-      //if not (DocStock = nil) then
+    try
+      //if OuvreBaseCial(BaseCial,
+      //  'C:\Users\Public\Documents\Sage\Entreprise 100c\Bijou.gcm'
+      //  , '<Administrateur>') then
       //begin
-      //
-      //  { Entrée en stock sur l'emplacement principal : }
-      //  CreeLigneStock(DocStock, 'BRAAR10', 50);
-      //
-      //  { Entrée en stock sur l'emplacement indiqué : }
-      //  CreeLigneStock(DocStock, 'BAAR01', 100, 'A2T1N2P3');
-      //
-      //  { Entrée en stock d'un article géré par lot : }
-      //  CreeLigneStockLot(
-      //      DocStock,
-      //      'LINGOR18',
-      //      5,
-      //      'LOT001',
-      //      StrToDate('31/12/10'),
-      //      '12345678',
-      //      'A3T1N2P1');
-      //end;
-
-      { Création d'un Bon de commande client : }
-      DocVente := CreeEnteteVenteBC(BaseCial, 'CARAT', Now);
-      if not (DocVente = nil) then
+      if OuvreBaseCial(BaseCial,
+        'E:\DATA\Gestion\BIJOU-SQL2017\V7\Bijou_V7.gcm'
+        , '<Administrateur>') then
       begin
 
-        { Article géré au CMUP : }
-        CreeLigneVente(DocVente, 'BRAAR10', 5);
+        //{ Création d'une Mouvement d'entrée en stock : }
 
-        { Article à conditionnement : }
-        //CreeLigneVente(DocVente, 'EM040/24', 2);
+        //DocStock := CreeEnteteStockME(BaseCial, 'Bijou SA', Now);
+        //if not (DocStock = nil) then
+        //begin
+        //
+        //  { Entrée en stock sur l'emplacement principal : }
+        //  CreeLigneStock(DocStock, 'BRAAR10', 50);
+        //
+        //  { Entrée en stock sur l'emplacement indiqué : }
+        //  CreeLigneStock(DocStock, 'BAAR01', 100, 'A2T1N2P3');
+        //
+        //  { Entrée en stock d'un article géré par lot : }
+        //  CreeLigneStockLot(
+        //      DocStock,
+        //      'LINGOR18',
+        //      5,
+        //      'LOT001',
+        //      StrToDate('31/12/10'),
+        //      '12345678',
+        //      'A3T1N2P1');
+        //end;
 
-        { Article à double gamme : }
-        //CreeLigneVente(DocVente, 'CHAARVARC34', 2);
+         { Création d'un Bon de commande client : }
 
-        { Affectation d'une valeur à une info libre ligne : }
-        {
-         ModifieInfoLibreLigne(
-             CreeLigneVente(DocVente, 'BRAAR10', 1) as IBODocumentLigne3,
-             'Commentaires',
-             'Extension de garantie : 3 ans');
-        }
+         {
+          DocVente := CreeEnteteVenteFA(BaseCial, 'CARAT', Now);
+          if not (DocVente = nil) then
+          begin
 
-        { Article à nomenclature commerciale : }
-        //CreeLigneVenteArtNomenclature(DocVente, 'ENSHF', 2);
+            { Article géré au CMUP : }
+            CreeLigneVente(DocVente, 'BRAAR10', 5);
 
-        { Article géré par N° de série : }
-        //CreeLigneVenteArtSerialise(DocVente, 'MOBWAC01');
+            { Article à conditionnement : }
+            //CreeLigneVente(DocVente, 'EM040/24', 2);
 
-        //CreeAcompte(DocVente, 100, Utf8ToAnsi('Chèque'), Now);
-        AfficheValorisation(DocVente);
-        AfficheTaxes(DocVente);
-        AfficheEcheances(DocVente);
+            { Article à double gamme : }
+            //CreeLigneVente(DocVente, 'CHAARVARC34', 2);
+
+            { Affectation d'une valeur à une info libre ligne : }
+            {
+             ModifieInfoLibreLigne(
+                 CreeLigneVente(DocVente, 'BRAAR10', 1) as IBODocumentLigne3,
+                 'Commentaires',
+                 'Extension de garantie : 3 ans');
+            }
+
+            { Article à nomenclature commerciale : }
+            //CreeLigneVenteArtNomenclature(DocVente, 'ENSHF', 2);
+
+            { Article géré par N° de série : }
+            //CreeLigneVenteArtSerialise(DocVente, 'MOBWAC01');
+
+            //CreeAcompteVente(DocVente, 2.47, Utf8ToAnsi('Chèque'), Now, Utf8ToAnsi('Libellé'));
+            writeln(CreeReglementVente(DocVente, Utf8ToAnsi('Référence'), Utf8ToAnsi('Libellé'), 3.47 * 10000, Utf8ToAnsi('BEU'), Utf8ToAnsi('Espèces')));
+            AfficheValorisation(DocVente);
+            AfficheTaxes(DocVente);
+            AfficheEcheances(DocVente);
+          end;
+         }
+
+        { Création d'une Facture de Retour client : }
+
+         DocVente := CreeEnteteVenteFR(BaseCial, 'CARAT', Now);
+         if not (DocVente = nil) then
+         begin
+
+           { Article géré au CMUP : }
+           CreeLigneVente(DocVente, 'BRAAR10', -5);
+
+           { Article à conditionnement : }
+           //CreeLigneVente(DocVente, 'EM040/24', 2);
+
+           { Article à double gamme : }
+           //CreeLigneVente(DocVente, 'CHAARVARC34', 2);
+
+           { Affectation d'une valeur à une info libre ligne : }
+           {
+            ModifieInfoLibreLigne(
+                CreeLigneVente(DocVente, 'BRAAR10', 1) as IBODocumentLigne3,
+                'Commentaires',
+                'Extension de garantie : 3 ans');
+           }
+
+           { Article à nomenclature commerciale : }
+           //CreeLigneVenteArtNomenclature(DocVente, 'ENSHF', 2);
+
+           { Article géré par N° de série : }
+           //CreeLigneVenteArtSerialise(DocVente, 'MOBWAC01');
+
+           //CreeAcompteVente(DocVente, 2.47, Utf8ToAnsi('Chèque'), Now, Utf8ToAnsi('Libellé'));
+           writeln(CreeReglementVente(DocVente, Utf8ToAnsi('Référence'), Utf8ToAnsi('Libellé'), -10, Utf8ToAnsi('BEU'), Utf8ToAnsi('Espèces')));
+           AfficheValorisation(DocVente);
+           AfficheTaxes(DocVente);
+           AfficheEcheances(DocVente);
+         end;
       end;
+    except on E: Exception do
+      Writeln(E.ClassName, ': ', E.Message);
     end;
 
   finally
