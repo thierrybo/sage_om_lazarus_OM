@@ -17,7 +17,7 @@ uses
   Interfaces, // sinon Error: Undefined symbol: WSRegisterCustomImageList
   SysUtils,  // sinon Error: Identifier not found "Exception"
   ActiveX,
-  Objets100cLib_3_0_TLB
+  objets100clib
   ;
 
 var
@@ -48,7 +48,7 @@ begin
   StreamCpta  := TAxcBSCPTAApplication100c.Create(nil);
   BaseCpta    := StreamCpta.OleServer;
   try
-    if CreeBaseCpta(BaseCpta, 'C:\DATA\tmp\test1.mae') then
+    if CreeBaseCpta(BaseCpta, 'E:\DATA\tmp\test1.mae') then
     begin
         Writeln(UTF8ToAnsi('Base comptable correctement créée !'));
     end;
