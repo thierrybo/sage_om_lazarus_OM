@@ -48,7 +48,7 @@ begin
   StreamCpta  := TAxcBSCPTAApplication100c.Create(nil);
   BaseCpta    := StreamCpta.OleServer;
   try
-    if CreeBaseCpta(BaseCpta, 'E:\DATA\tmp\test1.mae') then
+    if CreeBaseCpta(BaseCpta, 'E:\DATA\Gestion\SQL2017\100c_v7\TEST_OM_ExemplesSupport0808.mae') then
     begin
         Writeln(UTF8ToAnsi('Base comptable correctement créée !'));
     end;
