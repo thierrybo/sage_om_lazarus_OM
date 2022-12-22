@@ -17,12 +17,12 @@ uses
   Interfaces, // sinon Error: Undefined symbol: WSRegisterCustomImageList
   SysUtils,  // sinon Error: Identifier not found "Exception"
   ActiveX,
-  Objets100Lib_3_0_TLB,
+  objets100clib,
   Commun
   ;
 
 var
-  StreamCpta      : TAxcBSCPTAApplication3;
+  StreamCpta      : TAxcBSCPTAApplication100c;
   BaseCpta        : IBSCPTAApplication3;
   IntituleDevise  : string;
   Devise          : IBPDevise2;
@@ -31,12 +31,12 @@ begin
   // Initialize COM. ------------------------------------------
   CoInitializeEx(nil, COINIT_MULTITHREADED);
 
-  StreamCpta  := TAxcBSCPTAApplication3.Create(nil);
+  StreamCpta  := TAxcBSCPTAApplication100c.Create(nil);
   BaseCpta    := StreamCpta.OleServer;
 
   try
     if OuvreBaseCpta(BaseCpta,
-        'C:\Temp\BIJOU1553.MAE',
+        'E:\DATA\Gestion\BIJOU-SQL2017\V7\BIJOU_V7.MAE',
         '<Administrateur>'
         ) then
     begin
