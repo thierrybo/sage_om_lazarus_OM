@@ -46,7 +46,7 @@ begin
           CT_Intitule  := 'Bolle Virginie';
           TiersPayeur  := Client;
           CompteGPrinc := BaseCpta.FactoryCompteG.ReadNumero('4110000');
-          Write;
+          Write_; { Attention FPC a renommé Write en Write_ }
         end;
         Writeln(UTF8ToAnsi('Client correctement créé'));
       except
