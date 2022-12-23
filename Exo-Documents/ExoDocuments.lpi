@@ -86,7 +86,7 @@
         <MinVersion Major="7" Valid="True"/>
       </Item1>
     </RequiredPackages>
-    <Units Count="3">
+    <Units Count="4">
       <Unit0>
         <Filename Value="ExoDocuments.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -101,6 +101,10 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="IterateurEnumVariant"/>
       </Unit2>
+      <Unit3>
+        <Filename Value="..\wmiutil.pp"/>
+        <IsPartOfProject Value="True"/>
+      </Unit3>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

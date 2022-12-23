@@ -19,7 +19,8 @@ uses
   ActiveX,
   Objets100cLib_TLB,
   commun,
-  IterateurEnumVariant;
+  IterateurEnumVariant,
+  wmiutil;
 
 var
   StreamCial    : TAxcBSCIALApplication100c;
@@ -548,9 +549,6 @@ var
   Client  : IBOTiersPart3;
   pRegler : IPMReglerEcheances;
   BaseCial : BSCIALApplication100c;
-  //iEcheance : OleVariant; // Usage itération standard Delphi IenumVariant
-  //IEnum   : IEnumVARIANT; // Usage itération standard Delphi IenumVariant
-  //Nombre  : LongWord; // Usage itération standard Delphi IenumVariant
   iEcheance : IUnknown; // Usage itération L.DARDENNE IenumVariant
   IEnum   : TEnumVARIANT; // Usage itération L.DARDENNE IenumVariant
 
@@ -590,17 +588,6 @@ begin
   	{ TODO: ATTENTION déplacer l'appel jusqu'à la collection (.List) dans une
   		variable sinon à chaque appel il doit recréer la liste => peut être long }
 
-      {
-       // Itération standard Delphi IenumVariant
-
-       //IEnum := IUnknown(ADocVte.FactoryDocumentEcheance.List._NewEnum) as IEnumVARIANT;
-       IEnum := ADocVte.FactoryDocumentEcheance.List._NewEnum as IEnumVARIANT;
-       while IEnum.Next(1, iEcheance, Nombre) = S_OK do
-       begin
-         pRegler.AddDocumentEcheanceMontant(IUnknown(iEcheance) as IBODocumentEcheance3, AMontant);
-         //pRegler.AddDocumentEcheance(IUnknown(iEcheance) as IBODocumentEcheance3, AMontant);
-       end;
-      }
       // Itération L.DARDENNE IenumVariant
       IEnum := TEnumVariant.Create(ADocVte.FactoryDocumentEcheance.List);
       For iEcheance in IEnum do;
@@ -714,9 +701,8 @@ end;
 
 procedure AfficheTaxes(var ADocVente: IBODocumentVente3);
 var
-  iTaxe  : OleVariant; // Usage itération standard Delphi IenumVariant
-  IEnum  : IEnumVARIANT; // Usage itération standard Delphi IenumVariant
-  Nombre : LongWord; // Usage itération standard Delphi IenumVariant
+  iTaxe  : OleVariant; // Usage itération standard Delphi ET Marcov IenumVariant
+  oEnum  : oEnumIterator; // Usage itération Marcov IenumVariant
   Taxe   : IDocValoTaxe;
 begin
 
@@ -727,9 +713,8 @@ begin
   try
 
     { Affiche chacune des taxes de la ligne : }
-    //IEnum := IUnknown(ADocVente.Valorisation.Taxes._NewEnum) as IEnumVARIANT;
-    IEnum := ADocVente.Valorisation.Taxes._NewEnum as IEnumVARIANT;
-    while IEnum.Next(1, iTaxe, Nombre) = S_OK do
+    // Itération MARCOV IenumVariant
+    for iTaxe in oEnum.Enumerate(ADocVente.Valorisation.Taxes) do
     begin
       Taxe := IUnknown(iTaxe) as IDocValoTaxe;
       Writeln(
