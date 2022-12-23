@@ -97,7 +97,7 @@
         <UnitName Value="Commun"/>
       </Unit1>
       <Unit2>
-        <Filename Value="iterateurenumvariant.pas"/>
+        <Filename Value="..\iterateurenumvariant.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="IterateurEnumVariant"/>
       </Unit2>
