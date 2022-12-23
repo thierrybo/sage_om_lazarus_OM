@@ -18,7 +18,8 @@ uses
   SysUtils,  // sinon Error: Identifier not found "Exception"
   ActiveX,
   Objets100cLib_TLB,
-  commun, IterateurEnumVariant;
+  commun,
+  IterateurEnumVariant;
 
 var
   StreamCial    : TAxcBSCIALApplication100c;
@@ -193,23 +194,27 @@ function CreeLot(
   AComplementSerieLot: string): IBOArticleDepotLot;
 var
   Lot                : IBOArticleDepotLot;
-  I                  : Integer;
+  iArticleDepot      : OleVariant; // Usage itération standard Delphi IenumVariant
+  IEnum              : IEnumVARIANT; // Usage itération standard Delphi IenumVariant
+  Nombre             : LongWord; // Usage itération standard Delphi IenumVariant
 begin
 
   try
     { Parcours des dépôts de l'article : }
 	{ TODO: ATTENTION déplacer l'appel jusqu'à la collection (.List) dans une
 		variable sinon à chaque appel il doit recréer la liste => peut être long }
-    for I := 1 to AArticle.FactoryArticleDepot.List.Count do
+    //IEnum := IUnknown(AArticle.FactoryArticleDepot.List._NewEnum) as IEnumVARIANT;
+    IEnum := AArticle.FactoryArticleDepot.List._NewEnum as IEnumVARIANT;
+    while IEnum.Next(1, iArticleDepot, Nombre) = S_OK do
     begin
 
       { Identification du dépôt de l'article correspondant à l'intitulé : }
-      if (AArticle.FactoryArticleDepot.List.Item[I] as IBOArticleDepot3).Depot.
-        DE_Intitule = ADepot.DE_Intitule then
+      if (IUnknown(iArticleDepot) as IBOArticleDepot3).Depot.DE_Intitule =
+          ADepot.DE_Intitule then
       begin
 
         { Création d'un nouveau lot : }
-        Lot := (AArticle.FactoryArticleDepot.List.Item[I] as IBOArticleDepot3).
+        Lot := (IUnknown(iArticleDepot) as IBOArticleDepot3).
                FactoryArticleDepotLot.Create as IBOArticleDepotLot;
 
         with Lot do
@@ -310,23 +315,25 @@ begin
 end;
 
 function CreeLigneVenteArtNomenclature(
-  var ADocVente       : IBODocumentVente3;
-  ARefArticle         : string;
-  AQteCompose         : Double): IBODocumentVenteLigne3;
+  var ADocVente : IBODocumentVente3;
+  ARefArticle   : string;
+  AQteCompose   : Double): IBODocumentVenteLigne3;
 var
-  LigneDocVente       : IBODocumentVenteLigne3;
-  BaseCial            : IBSCIALApplication3;
-  LArticleCompose     : IBOArticle3;
-  QteComposant        : Double;
-  I                   : Integer;
-  ArticleNomenclature : IBOArticleNomenclature3;
+  LigneDocVente        : IBODocumentVenteLigne3;
+  BaseCial             : IBSCIALApplication3;
+  LArticleCompose      : IBOArticle3;
+  QteComposant         : Double;
+  iArticleNomenclature : OleVariant; // Usage itération standard Delphi IenumVariant
+  IEnum                : IEnumVARIANT; // Usage itération standard Delphi IenumVariant
+  Nombre               : LongWord; // Usage itération standard Delphi IenumVariant
+  ArticleNomenclature  : IBOArticleNomenclature3;
 begin
 
   try
-    LigneDocVente     := ADocVente.FactoryDocumentLigne.Create as
-                         IBODocumentVenteLigne3;
-    BaseCial          := ADocVente.Stream as IBSCIALApplication3;
-    LArticleCompose   := BaseCial.FactoryArticle.ReadReference(ARefArticle);
+    LigneDocVente   := ADocVente.FactoryDocumentLigne.Create as
+                       IBODocumentVenteLigne3;
+    BaseCial        := ADocVente.Stream as IBSCIALApplication3;
+    LArticleCompose := BaseCial.FactoryArticle.ReadReference(ARefArticle);
 
     { Insertion de la ligne du composé : }
     with LigneDocVente do
@@ -340,10 +347,11 @@ begin
     { Parcours des composants de la nomenclature et insertion des lignes :  }
 	{ TODO: ATTENTION déplacer l'appel jusqu'à la collection (.List) dans une
 		variable sinon chaque appel il doit recréer la liste => peut etre long }
-    for I := 1 to LArticleCompose.FactoryArticleNomenclature.List.Count do
+    //IEnum := IUnknown(LArticleCompose.FactoryArticleNomenclature.List._NewEnum) as IEnumVARIANT;
+    IEnum := LArticleCompose.FactoryArticleNomenclature.List._NewEnum as IEnumVARIANT;
+    while IEnum.Next(1, iArticleNomenclature, Nombre) = S_OK do
     begin
-      ArticleNomenclature := LArticleCompose.FactoryArticleNomenclature.List.
-                             Item[I] as IBOArticleNomenclature3;
+      ArticleNomenclature := IUnknown(iArticleNomenclature) as IBOArticleNomenclature3;
       LigneDocVente       := ADocVente.FactoryDocumentLigne.Create as
                              IBODocumentVenteLigne3;
 
@@ -381,22 +389,25 @@ function GetNumSerieDispo(
   ADepot                       : IBODepot3): IBOArticleDepotLot;
 var
   ArticlesSerialisesNonEpuises : IBICollection;
-  I                            : Integer;
+  iArticleSerialise            : OleVariant; // Usage itération standard Delphi IenumVariant
+  IEnum                        : IEnumVARIANT; // Usage itération standard Delphi IenumVariant
+  Nombre                       : LongWord; // Usage itération standard Delphi IenumVariant
   ArticleDepot                 : IBOArticleDepot3;
-  I2                           : Integer;
+  iArticleDepot                : OleVariant; // Usage itération standard Delphi IenumVariant
 begin
 
   try
 
     { Parcours des dépôts de l'article : }
 	{ TODO: ATTENTION déplacer l'appel jusqu'à la collection (.List) dans une
-		variable sinon chaque appel il doit recréer la liste => peut etre long }
-    for I := 1 to AArticle.FactoryArticleDepot.List.Count do
+		variable sinon chaque appel il doit recréer la liste => peut être long }
+    //IEnum := IUnknown(AArticle.FactoryArticleDepot.List._NewEnum) as IEnumVARIANT;
+    IEnum := AArticle.FactoryArticleDepot.List._NewEnum as IEnumVARIANT;
+    while IEnum.Next(1, iArticleDepot, Nombre) = S_OK do
     begin
 
       { Identification du dépôt de l'article correspondant à l'intitulé : }
-      ArticleDepot := AArticle.FactoryArticleDepot.List.Item[I] as
-                      IBOArticleDepot3;
+      ArticleDepot := IUnknown(iArticleDepot) as IBOArticleDepot3;
       if ArticleDepot.Depot.DE_Intitule = ADepot.DE_Intitule then
       begin
 
@@ -405,14 +416,16 @@ begin
           ArticleDepot.FactoryArticleDepotLot.QueryNonEpuise;
 
         { Parcours de la collection et retour du 1er lot non réservé : }
-        for I2 := 1 to ArticlesSerialisesNonEpuises.Count do
+        //IEnum := IUnknown(ArticlesSerialisesNonEpuises._NewEnum) as IEnumVARIANT;
+        IEnum := ArticlesSerialisesNonEpuises._NewEnum as IEnumVARIANT;
+        while IEnum.Next(1, iArticleSerialise, Nombre) = S_OK do
         begin
-          if (ArticlesSerialisesNonEpuises.Item[I2] as IBOArticleDepotLot).
-              StockATerme = 1 then
-            Result := ArticlesSerialisesNonEpuises.Item[I2] as
-                      IBOArticleDepotLot;
+          if (IUnknown(iArticleSerialise) as IBOArticleDepotLot).StockATerme = 1 then
+            Result := IUnknown(iArticleSerialise) as IBOArticleDepotLot;
         end;
+
       end;
+
     end;
 
   except on E: Exception do
@@ -523,7 +536,6 @@ begin
   end;
 end;
 
-
 function CreeReglementVente(
   var ADocVte   : IBODocumentVente3;
   AReference    : string;
@@ -583,10 +595,10 @@ begin
 
        //IEnum := IUnknown(ADocVte.FactoryDocumentEcheance.List._NewEnum) as IEnumVARIANT;
        IEnum := ADocVte.FactoryDocumentEcheance.List._NewEnum as IEnumVARIANT;
-       while IEnum.Next(1, Element, Nombre) = S_OK do
+       while IEnum.Next(1, iEcheance, Nombre) = S_OK do
        begin
-         pRegler.AddDocumentEcheanceMontant(IUnknown(Element) as IBODocumentEcheance3, AMontant);
-         //pRegler.AddDocumentEcheance(IUnknown(Element) as IBODocumentEcheance3, AMontant);
+         pRegler.AddDocumentEcheanceMontant(IUnknown(iEcheance) as IBODocumentEcheance3, AMontant);
+         //pRegler.AddDocumentEcheance(IUnknown(iEcheance) as IBODocumentEcheance3, AMontant);
        end;
       }
       // Itération L.DARDENNE IenumVariant
@@ -616,7 +628,9 @@ var
   MontantTTC      : Double;
   TotPourcentTTC  : Double;
   PourcentTTC     : Double;
-  I               : Integer;
+  iEcheance       : OleVariant; // Usage itération standard Delphi IenumVariant
+  IEnum           : IEnumVARIANT; // Usage itération standard Delphi IenumVariant
+  Nombre          : LongWord; // Usage itération standard Delphi IenumVariant
   Echeance        : IBODocumentEcheance3;
 begin
 
@@ -633,12 +647,13 @@ begin
     { Parcours des échéances du document : }
 	{ TODO: ATTENTION déplacer l'appel jusqu'à la collection (.List) dans une
 		variable sinon chaque appel il doit recréer la liste => peut etre long }
-    for I := 1 to ADocVente.FactoryDocumentEcheance.List.Count do
+    //IEnum := IUnknown(ADocVente.FactoryDocumentEcheance.List._NewEnum) as IEnumVARIANT;
+    IEnum := ADocVente.FactoryDocumentEcheance.List._NewEnum as IEnumVARIANT;
+    while IEnum.Next(1, iEcheance, Nombre) = S_OK do
     begin
 
       { Calcul du montant TTC des échéances et du % de la ligne d'équilibre : }
-      Echeance := ADocVente.FactoryDocumentEcheance.List.Item[I]
-                  as IBODocumentEcheance3;
+      Echeance := IUnknown(iEcheance) as IBODocumentEcheance3;
       with Echeance do
       begin
 
@@ -699,8 +714,10 @@ end;
 
 procedure AfficheTaxes(var ADocVente: IBODocumentVente3);
 var
-  I     : Integer;
-  Taxe  : IDocValoTaxe;
+  iTaxe  : OleVariant; // Usage itération standard Delphi IenumVariant
+  IEnum  : IEnumVARIANT; // Usage itération standard Delphi IenumVariant
+  Nombre : LongWord; // Usage itération standard Delphi IenumVariant
+  Taxe   : IDocValoTaxe;
 begin
 
   Writeln(sLineBreak);
@@ -710,9 +727,11 @@ begin
   try
 
     { Affiche chacune des taxes de la ligne : }
-    for I := 1 to ADocVente.Valorisation.Taxes.Count do
+    //IEnum := IUnknown(ADocVente.Valorisation.Taxes._NewEnum) as IEnumVARIANT;
+    IEnum := ADocVente.Valorisation.Taxes._NewEnum as IEnumVARIANT;
+    while IEnum.Next(1, iTaxe, Nombre) = S_OK do
     begin
-      Taxe := ADocVente.Valorisation.Taxes.Item[I];
+      Taxe := IUnknown(iTaxe) as IDocValoTaxe;
       Writeln(
           FormatFloat('#0.##', Taxe.BaseCalcul),
           '      ',
@@ -729,117 +748,117 @@ begin
   // Initialize COM. ------------------------------------------
   CoInitializeEx(nil, COINIT_MULTITHREADED);
 
-  //StreamCial  := TAxcBSCIALApplication3.Create(nil);
   StreamCial  := TAxcBSCIALApplication100c.Create(nil);
   BaseCial    := StreamCial.OleServer;
 
   try
     try
+      // Si on utilise l'ouverture SQL
+      if OuvreBaseCialSql(BaseCial,
+        '(local)\SAGE2017',
+        'BIJOU_V7',
+        '<Administrateur>'
+        ) then
+      // Si on utilise l'ouverture .gcm
       //if OuvreBaseCial(BaseCial,
-      //  'C:\Users\Public\Documents\Sage\Entreprise 100c\Bijou.gcm'
-      //  , '<Administrateur>') then
-      //begin
-      if OuvreBaseCial(BaseCial,
-        'E:\DATA\Gestion\BIJOU-SQL2017\V7\Bijou_V7.gcm'
-        , '<Administrateur>') then
+      //  'E:\DATA\Gestion\BIJOU-SQL2017\V7\BIJOU_V7.gcm',
+      //  '<Administrateur>') then
       begin
 
         //{ Création d'une Mouvement d'entrée en stock : }
 
-        //DocStock := CreeEnteteStockME(BaseCial, 'Bijou SA', Now);
-        //if not (DocStock = nil) then
-        //begin
-        //
-        //  { Entrée en stock sur l'emplacement principal : }
-        //  CreeLigneStock(DocStock, 'BRAAR10', 50);
-        //
-        //  { Entrée en stock sur l'emplacement indiqué : }
-        //  CreeLigneStock(DocStock, 'BAAR01', 100, 'A2T1N2P3');
-        //
-        //  { Entrée en stock d'un article géré par lot : }
-        //  CreeLigneStockLot(
-        //      DocStock,
-        //      'LINGOR18',
-        //      5,
-        //      'LOT001',
-        //      StrToDate('31/12/10'),
-        //      '12345678',
-        //      'A3T1N2P1');
-        //end;
+        DocStock := CreeEnteteStockME(BaseCial, 'Bijou SA', Now);
+        if not (DocStock = nil) then
+        begin
+
+          { Entrée en stock sur l'emplacement principal : }
+          CreeLigneStock(DocStock, 'BRAAR10', 50);
+
+          { Entrée en stock sur l'emplacement indiqué : }
+          CreeLigneStock(DocStock, 'BAAR01', 100, 'A2T1N2P3');
+
+          { Entrée en stock d'un article géré par lot : }
+          CreeLigneStockLot(
+              DocStock,
+              'LINGOR18',
+              5,
+              'LOT001',
+              StrToDate('31/12/19'),
+              '12345678',
+              'A3T1N2P1');
+        end;
 
          { Création d'un Bon de commande client : }
 
-         {
-          DocVente := CreeEnteteVenteFA(BaseCial, 'CARAT', Now);
-          if not (DocVente = nil) then
-          begin
+        DocVente := CreeEnteteVenteBC(BaseCial, 'CARAT', Now);
+        if not (DocVente = nil) then
+        begin
 
-            { Article géré au CMUP : }
-            CreeLigneVente(DocVente, 'BRAAR10', 5);
+          { Article géré au CMUP : }
+          CreeLigneVente(DocVente, 'BRAAR10', 5);
 
-            { Article à conditionnement : }
-            //CreeLigneVente(DocVente, 'EM040/24', 2);
+          { Article à conditionnement : }
+          CreeLigneVente(DocVente, 'EM040/24', 2);
 
-            { Article à double gamme : }
-            //CreeLigneVente(DocVente, 'CHAARVARC34', 2);
+          { Article à double gamme : }
+          CreeLigneVente(DocVente, 'CHAARVARC34', 2);
 
-            { Affectation d'une valeur à une info libre ligne : }
-            {
-             ModifieInfoLibreLigne(
-                 CreeLigneVente(DocVente, 'BRAAR10', 1) as IBODocumentLigne3,
-                 'Commentaires',
-                 'Extension de garantie : 3 ans');
-            }
+          { Affectation d'une valeur à une info libre ligne : }
+          { #todo 1 : EXCEPTION "Type de variable incorrecte" }
+          //ModifieInfoLibreLigne(
+          //  CreeLigneVente(DocVente, 'BRAAR10', 1) as IBODocumentLigne3,
+          //  'Commentaires',
+          //  'Extension de garantie : 3 ans');
 
-            { Article à nomenclature commerciale : }
-            //CreeLigneVenteArtNomenclature(DocVente, 'ENSHF', 2);
+          { Article à nomenclature commerciale : }
+          CreeLigneVenteArtNomenclature(DocVente, 'ENSHF', 2);
 
-            { Article géré par N° de série : }
-            //CreeLigneVenteArtSerialise(DocVente, 'MOBWAC01');
+          { Article géré par N° de série : }
+          CreeLigneVenteArtSerialise(DocVente, 'MOBWAC01');
 
-            //CreeAcompteVente(DocVente, 2.47, Utf8ToAnsi('Chèque'), Now, Utf8ToAnsi('Libellé'));
-            writeln(CreeReglementVente(DocVente, Utf8ToAnsi('Référence'), Utf8ToAnsi('Libellé'), 3.47 * 10000, Utf8ToAnsi('BEU'), Utf8ToAnsi('Espèces')));
-            AfficheValorisation(DocVente);
-            AfficheTaxes(DocVente);
-            AfficheEcheances(DocVente);
-          end;
-         }
+          writeln(CreeAcompteVente(DocVente, 1, Utf8ToAnsi('Chèque'), Now, Utf8ToAnsi('Libellé')));
+          //writeln(CreeReglementVente(DocVente, Utf8ToAnsi('Référence'), Utf8ToAnsi('Libellé'), 3.47 * 10000, Utf8ToAnsi('BEU'), Utf8ToAnsi('Espèces')));
+          AfficheValorisation(DocVente);
+          AfficheTaxes(DocVente);
+          { #todo : Si Loi AntiFraude affiche "EOleException : L'échéance doit provenir d'une facture validée !" }
+          AfficheEcheances(DocVente);
+        end;
 
         { Création d'une Facture de Retour client : }
 
-         DocVente := CreeEnteteVenteFR(BaseCial, 'CARAT', Now);
-         if not (DocVente = nil) then
-         begin
+        DocVente := CreeEnteteVenteFR(BaseCial, 'CARAT', Now);
+        if not (DocVente = nil) then
+        begin
 
-           { Article géré au CMUP : }
-           CreeLigneVente(DocVente, 'BRAAR10', -5);
+          { Article géré au CMUP : }
+          CreeLigneVente(DocVente, 'BRAAR10', -5);
 
-           { Article à conditionnement : }
-           //CreeLigneVente(DocVente, 'EM040/24', 2);
+          { Article à conditionnement : }
+          //CreeLigneVente(DocVente, 'EM040/24', 2);
 
-           { Article à double gamme : }
-           //CreeLigneVente(DocVente, 'CHAARVARC34', 2);
+          { Article à double gamme : }
+          //CreeLigneVente(DocVente, 'CHAARVARC34', 2);
 
-           { Affectation d'une valeur à une info libre ligne : }
-           {
-            ModifieInfoLibreLigne(
-                CreeLigneVente(DocVente, 'BRAAR10', 1) as IBODocumentLigne3,
-                'Commentaires',
-                'Extension de garantie : 3 ans');
-           }
+          { Affectation d'une valeur à une info libre ligne : }
+          {
+           ModifieInfoLibreLigne(
+               CreeLigneVente(DocVente, 'BRAAR10', 1) as IBODocumentLigne3,
+               'Commentaires',
+               'Extension de garantie : 3 ans');
+          }
 
-           { Article à nomenclature commerciale : }
-           //CreeLigneVenteArtNomenclature(DocVente, 'ENSHF', 2);
+          { Article à nomenclature commerciale : }
+          //CreeLigneVenteArtNomenclature(DocVente, 'ENSHF', 2);
 
-           { Article géré par N° de série : }
-           //CreeLigneVenteArtSerialise(DocVente, 'MOBWAC01');
+          { Article géré par N° de série : }
+          //CreeLigneVenteArtSerialise(DocVente, 'MOBWAC01');
 
-           //CreeAcompteVente(DocVente, 2.47, Utf8ToAnsi('Chèque'), Now, Utf8ToAnsi('Libellé'));
-           writeln(CreeReglementVente(DocVente, Utf8ToAnsi('Référence'), Utf8ToAnsi('Libellé'), -10, Utf8ToAnsi('BEU'), Utf8ToAnsi('Espèces')));
-           AfficheValorisation(DocVente);
-           AfficheTaxes(DocVente);
-           AfficheEcheances(DocVente);
-         end;
+          //CreeAcompteVente(DocVente, 2.47, Utf8ToAnsi('Chèque'), Now, Utf8ToAnsi('Libellé'));
+          writeln(CreeReglementVente(DocVente, Utf8ToAnsi('Référence'), Utf8ToAnsi('Libellé'), -10, Utf8ToAnsi('BEU'), Utf8ToAnsi('Espèces')));
+          AfficheValorisation(DocVente);
+          AfficheTaxes(DocVente);
+          AfficheEcheances(DocVente);
+        end;
       end;
     except on E: Exception do
       Writeln(E.ClassName, ': ', E.Message);

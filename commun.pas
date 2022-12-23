@@ -27,6 +27,9 @@ function OuvreBaseCptaSql(var ABaseCpta: IBSCPTAApplication3; ACompanyServer: st
 function FermeBaseCpta(var ABaseCpta: IBSCPTAApplication3): Boolean;
 function OuvreBaseCial(var ABaseCial: IBSCIALApplication3; ANomBaseCial: string;
     AUtilisateur: string = ''; AMotDePasse: string = ''): Boolean;
+function OuvreBaseCialSql(var ABaseCial: IBSCIALApplication3; ACompanyServer: string;
+    ACompanyDatabaseName: string; AUtilisateur: string = '';
+    AMotDePasse: string = ''): Boolean;
 function FermeBaseCial(var ABaseCial: IBSCIALApplication3): Boolean;
 
 implementation
@@ -121,6 +124,38 @@ function OuvreBaseCial(var ABaseCial: IBSCIALApplication3; ANomBaseCial: string;
 begin
   try
     ABaseCial.Name := ANomBaseCial;
+    if (AUtilisateur <> '') then
+    begin
+      ABaseCial.Loggable.UserName := AUtilisateur;
+      ABaseCial.Loggable.UserPwd  := AMotDePasse;
+    end;
+    ABaseCial.Open;
+    Result := true;
+  except on E: Exception do
+    begin
+      Writeln(
+        'Erreur en ouverture de base comptable ',
+        ABaseCial.Name,
+        ' : ',
+        sLineBreak,
+        E.ClassName,
+        ': ',
+        E.Message);
+      Result := false;
+    end;
+  end;
+end;
+
+function OuvreBaseCialSql(
+  var ABaseCial         : IBSCIALApplication3;
+  ACompanyServer        : string;
+  ACompanyDatabaseName  : string;
+  AUtilisateur          : string = '';
+  AMotDePasse           : string = ''): Boolean;
+begin
+  try
+    ABaseCial.CompanyServer       := ACompanyServer;
+    ABaseCial.CompanyDatabaseName := ACompanyDatabaseName;
     if (AUtilisateur <> '') then
     begin
       ABaseCial.Loggable.UserName := AUtilisateur;
